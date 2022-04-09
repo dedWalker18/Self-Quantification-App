@@ -1,0 +1,42 @@
+{%extends 'base.html'%}
+{%block title%}
+Sign Up
+{%endblock%}
+{% block login_nav%}
+
+<li class="nav-item">
+  <a class="nav-link" href="{{url_for('login_page')}}">Login</a>
+</li>
+{% endblock %}
+{%block content%}
+<div>
+  <form action="{{url_for('register_page')}}" method="POST" id="register-form">
+    <div class="form-row col-md-4">
+      {%for message in get_flashed_messages() %}
+      {{message}}
+      <br>
+      {% endfor %}
+      <label><h2 style="padding:20px 50px; font-family:courier new;" >Username:</h2></label>
+      <input type="text" class="form-control col-md-7" style="margin-left:50px;" name="username" placeholder="JohnDoe" required />
+    </div>
+    <br>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4"><h2 style="padding:20px 50px; font-family:courier new;" >Password:</h2></label>
+      <input type="password" style="margin-left:50px;" class="form-control col-md-7" id="inputPassword4" name="password" placeholder="Password" required />
+    </div>
+    <br>
+    <div class="form-group col-md-4">
+      <label><h2 style="padding:20px 50px; font-family:courier new;" >First Name:</h2></label>
+      <input type="text" style="margin-left:50px;" class="form-control col-md-7" name="fname" placeholder="John" required />
+    </div>
+    <br>
+    <div class="form-group col-md-4">
+      <label><h2 style="padding:20px 50px; font-family:courier new;" >Last Name:</h2></label>
+      <input type="text" style="margin-left:50px;" class="form-control col-md-7" name="lname" placeholder="Doe" />
+    </div>
+    <br>
+    <input type="submit" class="btn btn-primary" style="margin-left:200px;" value = "Submit">
+</div>
+</form>
+</div>
+{%endblock%}

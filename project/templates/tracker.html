@@ -1,0 +1,114 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Tracker
+{%endblock%}
+
+{%block dashboard_nav%}
+<li class="nav-item">
+  <a href="{{url_for('dashboard_page')}}" style="color:white;">Dashboard</a>
+</li>
+{%endblock%}
+
+{%block register_nav%}
+<li class="nav-item">
+  <a href="{{url_for('logout_page')}}" style="color:white;">Logout</a>
+</li>
+{%endblock%}
+
+{%block content%}
+{%for message in get_flashed_messages() %}
+{{message}}
+<br>
+{% endfor %}
+<script type="text/javascript">
+        function settinghide(){ 
+          var g_time= document.getElementById("timeperiod"); 
+          if (g_time.value=='today')
+          {
+            document.getElementById("today").style.display = 'block'
+            document.getElementById("week").style.display = 'none'
+            document.getElementById("month").style.display = 'none'
+          }
+          else if (g_time.value=='week')
+          {
+            document.getElementById("today").style.display = 'none'
+            document.getElementById("week").style.display = 'block'
+            document.getElementById("month").style.display = 'none'
+          }
+          else if (g_time.value=='month')
+          {
+            document.getElementById("today").style.display = 'none'
+            document.getElementById("week").style.display = 'none'
+            document.getElementById("month").style.display = 'block'
+          }
+    
+         }         
+    </script>
+
+<h1 style="margin-left:20px; margin-top:30px;"> Hello {{session['user_fname']}}</h1>
+<h4 style="margin-left:20px; margin-top:30px;"> {{tracker_name}} Tracker </h4>
+<br>
+{% if flag %}
+<div id="today">
+  {%if graphdata['today']=='Yes'%}
+  <img src="static/{{session['user_id']}}_{{tracker_id}}_today.png"  alt="Graph_Depicting_Vitals" style="margin-right:10%;height:400px;width:400px;float:right;">
+  {% else %}
+  <p>Not Enough Data</p>
+  {% endif %}
+</div>
+<div id="week" style="display: none;">
+  {%if graphdata['week']=='Yes'%}
+  <img src="static/{{session['user_id']}}_{{tracker_id}}_week.png" alt="Graph_Depicting_Vitals" style="margin-right:10%;height:400px;width:400px;float:right;">
+  {% else %}
+  <p>Not Enough Data</p>
+  {% endif %}
+</div>
+<div id="month" style="display: none;">
+  {%if graphdata['month']=='Yes'%}
+  <img src="static/{{session['user_id']}}_{{tracker_id}}_month.png" alt="Graph_Depicting_Vitals" style="margin-right:10%;height:400px;width:400px;float:right;">
+  {% else %}
+  <p>Not Enough Data</p>
+  {% endif %}
+</div>
+<br>
+<div class="form-group;">
+  <label for="timeperiod" style="margin-left:40px;">Select Graph Time Period: </label>
+  <select class="form-control dark col-md-4" style="margin-top: 20px;margin-left:40px;" name="timeperiod" id="timeperiod" onchange="settinghide()" required>
+    <option value="today" >Today</option>
+    <option value="week">This Week</option>
+    <option value="month">This Month</option>
+  </select>
+</div>
+<br>
+<table id = "tracker-logs" class=" table-hover table-dark" style="margin-left:40px;width:640px;">
+  <tr>
+    <th>On</th>
+    <th>Value</th>
+    <th>Note</th>
+    <th>Actions</th>
+  </tr>
+  {% for log in logs %}
+  <tr>
+    <td>{{ log['log_time'] }}</td>
+    <td>{{ log['log_value'] }} </a></td>
+    <td> {{ log['log_note'] }} </td>
+    <td>
+      <a href="/log?l_id={{log['log_id']}}&t_id={{tracker_id}}&type=update" class="btn btn-outline btn-success" type="button">Update</a>
+      <a href="/log?l_id={{log['log_id']}}&t_id={{tracker_id}}&type=delete" class="btn btn-outline btn-danger" type="button" onclick="return confirm('Are You Sure Want To Delete Log?');">Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<br>
+<a href="/log?t_id={{tracker_id}}&t_type={{tracker_type}}" type="button" style="margin-left:280px;"
+   class="btn btn-outline btn-success">Add Log</a>
+
+{% else %}
+<p> Log Doesn't Have any logs</p>
+<a href="/log?t_id={{tracker_id}}&t_type={{tracker_type}}" type="button"
+   class="btn btn-outline btn-success">Add Log</a>
+{% endif %}
+</form>
+
+{%endblock%}

@@ -1,0 +1,65 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Update Log
+{%endblock%}
+
+{%block dashboard_nav%}
+<li class="nav-item">
+    <a href="{{url_for('dashboard_page')}}" style="color:white;">Dashboard</a>
+</li>
+{%endblock%}
+
+{%block register_nav%}
+<li class="nav-item">
+    <a href="{{url_for('logout_page')}}" style="color:white;">Logout</a>
+</li>
+{%endblock%}
+
+{% block content %}
+{%for message in get_flashed_messages() %}
+{{message}}
+<br>
+{% endfor %}
+
+<h1 style="margin-left:20px; margin-top:30px;"> Hello {{session['user_fname']}}</h1>
+<h4 style="margin-left:20px; margin-top:30px;"> Update Log for Tracker {{tracker_name}}</h4>
+
+<form action="{{url_for('log_page')}}?t_id={{tracker_id}}&type=update&l_id={{log['log_id']}}" class="form-group" method="POST" id="log-form">
+    <div>
+        {%for message in get_flashed_messages() %}
+        {{message}}
+        <br>
+        {% endfor %}
+        <label style="margin-top:20px; margin-left:40px;">Log Timestamp:</label>
+        <input style="margin-top:20px; margin-left:40px;" type="datetime-local" class="form-control col-md-4" name="log_time" value={{log_time}} required>
+    </div>
+    <br>
+    {% if tracker_type=='Numerical'%}
+    <div>
+        <label style="margin-top:20px; margin-left:40px;">Log Value:</label>
+        <input style="margin-top:20px; margin-left:40px;" type="number" name="log_value" class="form-control col-md-4"value="{{log['log_value']}}" placeholder="Enter Log Value" required/>
+    </div>
+    {%else%}
+    <div>
+        <label style="margin-top:20px; margin-left:40px;" >Select Log Value:</label>
+        <select class="form-control col-md-4" name="log_value" style="margin-top:20px; margin-left:40px;" required >
+            {% for setting in settings%}
+            <option value="{{setting}}" >{{setting}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br>
+    {%endif%}
+    <div>
+        <label style="margin-top:20px; margin-left:40px;">Log Note:</label>
+        <input style="margin-top:20px; margin-left:40px;" class="form-control col-md-4" type="text" name="log_note" value="{{log['log_note']}}" placeholder="Enter Note" />
+    </div>
+    <br>
+    <input type="submit" class="btn btn-primary" style="margin-left:300px" value = "Submit">
+
+    </div>
+</form>
+
+
+{%endblock%}

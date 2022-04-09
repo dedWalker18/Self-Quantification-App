@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{%block register_nav%}
+<li class="nav-item">
+  <a href="{{url_for('logout_page')}}" style="color:white;">Logout</a>
+</li>
+{%endblock%}
+
+{% block content %}
+{%for message in get_flashed_messages() %}
+{{message}}
+
+{% endfor %}
+
+
+<h1 style="margin-left:20px; margin-top:30px;"> Hello {{user_fname}}</h1>
+<h4 style="margin-left:20px; margin-top:30px;"> Here is a list of your Trackers</h4>
+
+<br>
+{% if flag %}
+
+<form>
+  <table id = "all-tracker" class="table table-hover table-dark">
+    <thead>
+    <tr>
+      <th>SNo</th>
+      <th>Tracker Name</th>
+      <th>Tracker Type</th>
+      <th>Tracker Description</th>
+      <th>Last Tracked Date </th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tracker in trackers %}
+    <tr>
+      <td> {{ loop.index }} </td>
+      <td><a href="{{url_for('tracker_page')}}?t_id={{tracker['tracker_id']}}" style="color:white;"> {{ tracker['tracker_name'] }} </a></td>
+      <td> {{ tracker['tracker_type'] }} </td>
+      <td> {{ tracker['tracker_description']}}</td>
+      <td> {{ tracker['tracker_lastupate'] }} </td>
+      <td><a href="{{url_for('log_page')}}?t_id={{tracker['tracker_id']}}&t_type={{ tracker['tracker_type'] }}" type="button"
+             class="btn btn-outline btn-success">Add Logs</a>
+        <a href="{{url_for('tracker_page')}}?t_id={{tracker['tracker_id']}}&type=update" type="button"
+           class="btn btn-outline btn-info">Update</a>
+        <a href="{{url_for('tracker_page')}}?t_id={{tracker['tracker_id']}}&type=delete" type="button"
+           class="btn btn-outline btn-danger" onclick="return confirm('Are you sure you want to delete this tracker?');">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <div>
+    <a href="{{url_for('tracker_page')}}?" type="button" style="margin-top:50px;margin-left:850px;" class="button btn btn-outline btn-success"><h3>Add New Tracker</h3></a>
+  </div>
+
+  {% else %}
+  <p>User Doesn't Have any tracker</p>
+  <a href="{{url_for('tracker_page')}}?" type="button">Add Tracker</a>
+  {% endif %}
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Add New Log
+{%endblock%}
+
+{%block dashboard_nav%}
+<li class="nav-item">
+  <a href="{{url_for('dashboard_page')}}" style="color:white;">Dashboard</a>
+</li>
+{%endblock%}
+
+{%block register_nav%}
+<li class="nav-item">
+  <a href="{{url_for('logout_page')}}" style="color:white;">Logout</a>
+</li>
+{%endblock%}
+
+{% block content %}
+{%for message in get_flashed_messages() %}
+{{message}}
+<br>
+{% endfor %}
+<h1 style="margin-left:20px; margin-top:30px;"> Hello {{session['user_fname']}}</h1>
+<h4 style="margin-left:20px; margin-top:30px;"> Add Values for new Log</h4>
+
+<form action="{{url_for('log_page')}}?t_id={{tracker_id}}&t_type={{tracker_type}}" method="POST" id="log-form">
+  <div class="form-group" style="width:900px;height:100px;margin-left:2%;">
+    {%for message in get_flashed_messages() %}
+    {{message}}
+    <br>
+    {% endfor %}
+    <label style="margin-top:20px;">Log Name:</label>
+    <input type="datetime-local" class="form-control col-md-4" name="log_time" value={{time}} required>
+  </div>
+  <br>
+  {% if tracker_type=='Numerical'%}
+  <div class="form-group" style="width:900px;height:100px;margin-left:2%;">
+    <label>Log Value:</label>
+    <input type="number"class="form-control col-md-4" name="log_value"  placeholder="Enter Log Value" required/>
+  </div>
+  {%else%}
+  <div class="form-group" style="width:900px;height:100px;margin-left:2%;">
+    <label>Select Log Value:</label>
+    <select name="log_value" required>
+      {% for setting in settings%}
+      <option value="{{setting}}">{{setting}}</option>
+      {% endfor %}
+    </select>
+  </div >
+  <br>
+  {%endif%}
+  <div class="form-group" style="width:900px;height:100px;margin-left:2%;">
+    <label>Log Note:</label>
+    <input type="text" class="form-control col-md-4" name="log_note" placeholder="Enter Note" />
+  </div>
+  <br>
+  <input type="submit" class="btn btn-primary" style="margin-left:150px" value = "Submit">
+  </div>
+</form>
+{%endblock%}

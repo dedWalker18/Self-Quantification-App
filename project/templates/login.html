@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login Page
+{% endblock %}
+
+{% block register_nav%}
+<li class="nav-item">
+    <a class="nav-link" href="{{url_for('register_page')}}">Register</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<form  action="{{url_for('login_page')}}" method="POST" id="login-form">
+    <div class="form-group">
+        {%for message in get_flashed_messages() %}
+        {{message}}
+        <br>
+        {% endfor %}
+        <label><h2 style="font-family:courier new; padding:20px 50px;"> Username:</h2></label>
+
+        <input type="text" class="form-control col-md-4" style="margin-left:50px;" name="username" placeholder="Enter Username" required />
+
+    </div>
+    <br>
+    <div class="form-group">
+        <label ><h2 style="font-family:courier new; padding:0 50px;"> Password:</h2></label>
+        <input type="password" style="margin-left:50px;" name="password" class="form-control col-md-4" id="exampleInputPassword1" placeholder="Enter Password" required />
+        <h4 id="emailHelp" class="form-text text-muted"  style="font-family:courier new; margin-left:50px; margin-top:10px;"> We'll never share your email with anyone else.</h4>
+
+    </div>
+    <br>
+    <input type="submit" class="btn btn-primary" style="margin-left:300px" value = "Submit">
+    </div>
+
+</form>
+{% endblock %}

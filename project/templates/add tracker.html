@@ -1,0 +1,72 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Add Tracker
+{%endblock%}
+
+{%block dashboard_nav%}
+<li class="nav-item">
+    <a href="{{url_for('dashboard_page')}}" style="color:white;">Dashboard</a>
+</li>
+{%endblock%}
+
+{%block register_nav%}
+<li class="nav-item">
+    <a href="{{url_for('logout_page')}}" style="color:white;">Logout</a>
+</li>
+{%endblock%}
+
+{% block content %}
+
+{%for message in get_flashed_messages() %}
+{{message}}
+<br>
+{% endfor %}
+<script type="text/javascript">
+    function settinghide(){
+      var t_type= document.getElementById("type");
+      if (t_type.value=='Multiple Choice')
+      {
+        document.getElementById("settings").style.display = 'block'
+      }
+      else
+      {
+        document.getElementById("settings").style.display = 'none'
+      }
+
+     }
+</script>
+<form action="{{url_for('tracker_page')}}" method="POST" id="tracker-form">
+    <div class="form-group">
+        {%for message in get_flashed_messages() %}
+        {{message}}
+        <br>
+        {% endfor %}
+        <label style="margin-top:20px;margin-left:20px;">Tracker Name:</label>
+        <input style="margin-left:20px;margin-top:20px;" class="form-control col-md-3" type="text" name="name" placeholder="Enter Tracker Name" required />
+    </div>
+    <br>
+    <div class="form-group">
+        <label style="margin-top:20px;margin-left:20px;" for="type">Select Tracker Type: </label>
+        <select style="margin-left:20px;margin-top:20px;" class="form-control col-md-3" name="type" id="type" onchange="settinghide()" required>
+            <option value="Numerical">Numerical</option>
+            <option value="Multiple Choice">Multiple Choice</option>
+            <option value="Boolean">Boolean</option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <label style="margin-top:20px;margin-left:20px;">Tracker Description:</label>
+        <input style="margin-left:20px;margin-top:20px;"  class="form-control col-md-3" type="text" name="description" placeholder="Enter Description" />
+    </div>
+    <br>
+    <div id="settings" style="display: none;" class="form-group">
+        <label style="margin-top:20px;margin-left:20px;">Tracker Settings:</label>
+        <input style="margin-left:20px;margin-top:20px;" class="form-control col-md-3" type="text" name="settings" placeholder="Enter Comma Separated Values Which You Want as Choice" />
+    </div>
+    <br>
+    <input type="submit" class="btn btn-primary" style="margin-left:215px" value = "Submit">
+
+    </div>
+</form>
+{%endblock%}

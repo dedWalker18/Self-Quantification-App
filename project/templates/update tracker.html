@@ -1,0 +1,60 @@
+{% extends 'base.html'%}
+
+{%block title%}
+Edit Tracker
+{%endblock%}
+
+{%block dashboard_nav%}
+<li class="nav-item">
+  <a href="{{url_for('dashboard_page')}}" style="color:white;">Dashboard</a>
+</li>
+{%endblock%}
+
+{%block register_nav%}
+<li class="nav-item">
+  <a href="{{url_for('logout_page')}}" style="color:white;">Logout</a>
+</li>
+{%endblock%}
+
+{% block content %}
+
+<h1 style="margin-left:20px; margin-top:30px;"> Hello {{session['user_fname']}}</h1>
+<h4 style="margin-left:20px; margin-top:30px;"> Update your Tracker Settings</h4>
+
+<form action="/tracker?t_id={{tracker['tracker_id']}}&type=update" method="POST" id="tracker-form">
+  <div class="form-group">
+    {%for message in get_flashed_messages() %}
+    {{message}}
+    <br>
+    {% endfor %}
+    <label style="margin-top:20px;margin-left:20px;">Tracker Name:</label>
+    <input style="margin-left:20px;" class="form-control col-md-3" type="text" name="name" value="{{tracker['tracker_name']}}" placeholder="Enter Tracker Name" required />
+  </div>
+  <br>
+  <div>
+    <label style="margin-top:20px;margin-left:20px;" for="type">Select Tracker Type: </label>
+    <select name="type" value="{{tracker['tracker_type']}}" id="type" disabled>
+      <option value="numerical">Numerical</option>
+      <option value="multi">Multiple Choice</option>
+      <option value="boolean">Boolean</option>
+    </select>
+  </div>
+  <br>
+  <div class="form-group">
+    <label style="margin-left:20px;">Tracker Description:</label>
+    <input style="margin-left:20px;" class="form-control col-md-3" type="text" value="{{tracker['tracker_description']}}" name="description"/>
+  </div>
+  <br>
+  {%if tracker['tracker_type']=='Multiple Choice' %}
+  <div class="form-group">
+    <label style="margin-top:20px;"style="margin-left:20px;">Tracker Settings:</label>
+    <input class="form-control col-md-3" type="text" value="{{tracker['tracker_settings']}}" name="settings" disabled/>
+  </div>
+  <br>
+  {%endif%}
+  <input type="submit" class="btn btn-primary" style="margin-left:200px" value = "Submit">
+
+  </div>
+</form>
+</body>
+{%endblock%}

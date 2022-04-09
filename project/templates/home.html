@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Home Page
+{% endblock %}
+
+{% block login_nav%}
+<li class="nav-item" >
+    <a href="{{url_for('login_page')}}" style="color:white;">Login &emsp;&emsp;</a>
+
+</li>
+{% endblock %}
+
+{% block register_nav%}
+<li class="nav-item">
+    <a href="{{url_for('register_page')}}" style="color:white;">Register&emsp;</a>
+
+</li>
+{% endblock %}
+
+{% block content%}
+<img src="static/human.jpg" alt="Human Anatomy" style="float:left;" />
+
+
+<div style="margin:auto; text-align:center; padding:40px 0;">
+    <h1 style="padding:20px 0; font-family:courier new;"> Take control of Your Vital Stats </h1>
+    <h5 style="padding:40px 0; font-family:courier new">Sign up for free today</h5></div>
+<div><h3 style="padding:200px 0; text-align:center; font-family:courier new">With the latest tracking techniques, we can finally measure what happens inside your body.
+    This project is designed to show you how it all fits together and transform your health.
+    It is not just a new website on quantified self, It is a new software upgrade for your entire body & mind.
+</h3>
+</div>
+{%endblock%}
